@@ -109,7 +109,7 @@ def plot_price_chart(symbol, prices):
     fig, ax = plt.subplots()
 
     # Personnalisation du graphique
-    ax.plot(timestamps, values, label=symbol, color='grey', linestyle='.', linewidth=1, marker='o', markersize=3)
+    ax.plot(timestamps, values, label=symbol, color='grey', linestyle='solid', linewidth=1, marker='o', markersize=3)
     
     # Modification de la taille de la police pour les étiquettes de l'axe des x
     for label in ax.get_xticklabels():
