@@ -27,5 +27,5 @@ jobs:
         export_default_credentials: true
     - name: Build and Deploy to Cloud Run
       run: |
-        gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/default
-        gcloud run deploy Github --image gcr.io/$GCP_PROJECT_ID/default --region europe-central2 --platform managed
+        gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/cryptomonnaies
+        gcloud run deploy Github --image gcr.io/$GCP_PROJECT_ID/cryptomonnaies --region europe-central2 --platform managed
