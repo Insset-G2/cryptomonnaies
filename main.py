@@ -16,6 +16,10 @@ plt.interactive(False)
 cryptocurrency_dict     = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0, 'solana': 0}
 cryptocurrency_prices   = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0, 'solana': 0}
 
+@app.route('/')
+def hello():
+    return "Hello World !"
+
 @app.route('/cryptodata', methods=['GET'])
 def get_crypto_data():
     
