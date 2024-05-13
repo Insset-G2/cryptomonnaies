@@ -1,9 +1,0 @@
-steps:
-- name: "gcr.io/cloud-builders/git"
-  args: ["clone", "https://github.com/Insset-G2/cryptomonnaies", "source"]
-
-- name: "gcr.io/cloud-builders/python"
-  args: ["-m", "pip", "install", "-r", "source/requirements.txt"]
-
-- name: "gcr.io/cloud-builders/gcloud"
-  args: ["app", "deploy", "source/app.yaml", "--project=insset-g2"]
