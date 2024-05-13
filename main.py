@@ -13,8 +13,12 @@ app = Flask(__name__)
 matplotlib.use('Agg')
 plt.interactive(False)
 
-cryptocurrency_dict     = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0}
-cryptocurrency_prices   = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0}
+cryptocurrency_dict     = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0, 'solana': 0}
+cryptocurrency_prices   = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0, 'solana': 0}
+
+@app.route('/')
+def hello():
+    return "Hello World !"
 
 @app.route('/cryptodata', methods=['GET'])
 def get_crypto_data():
@@ -45,6 +49,9 @@ def get_transaction_data(crypto, transactionId):
     elif crypto == 'LTC':
         api_key = '4b5f636623e2478b87e9caa2dce700c7'
         transaction_details = get_ltc_transaction_detail(api_key, transactionId)
+        
+    if 'Erreur' in transaction_details:
+        return jsonify('Rate limit')
     
     # Retourner les détails de la transaction
     return jsonify(transaction_details)
@@ -99,45 +106,66 @@ def get_price_data(crypto_symbol, days=1):
 
     response = requests.get(api_url, params=params)
     data = response.json()
-
-    return data['prices']
+    
+    try:
+        if 'prices' in data:
+            return data['prices']
+        else:
+            return 0
+    except Exception as e:
+        return f"Erreur lors de la requête à l'API : {str(e)}"
 
 def plot_price_chart(symbol, prices):
-    timestamps, values = zip(*prices)
-    timestamps = [datetime.utcfromtimestamp(timestamp / 1000) for timestamp in timestamps]
-
-    fig, ax = plt.subplots()
-
-    # Personnalisation du graphique
-    ax.plot(timestamps, values, label=symbol, color='grey', linestyle='solid', linewidth=1, marker='o', markersize=3)
+    # if prices == 0:
+    #     fig, ax = plt.subplots()
+    #     ax.text(0.5, 0.5, "Rate limit", ha='center', va='center', fontsize=12, color='red')
+    #     ax.axis('off')
+    #     return fig
     
-    # Modification de la taille de la police pour les étiquettes de l'axe des x
-    for label in ax.get_xticklabels():
-        label.set_fontsize(8)
+    if prices != 0:
+        timestamps, values = zip(*prices)
+        timestamps = [datetime.utcfromtimestamp(timestamp / 1000) for timestamp in timestamps]
 
-    # Personnalisation des axes
-    ax.set_xlabel('Heure (UTC)', fontsize=10)
-    ax.set_ylabel('Prix (EUR)', fontsize=10)
+        fig, ax = plt.subplots()
 
-    # Personnalisation du titre
-    ax.set_title(f'Évolution du prix de {symbol} sur les dernières 24 heures', fontsize=14)
+        # Personnalisation du graphique
+        ax.plot(timestamps, values, label=symbol, color='grey', linestyle='solid', linewidth=1, marker='o', markersize=3)
+        
+        # Modification de la taille de la police pour les étiquettes de l'axe des x
+        for label in ax.get_xticklabels():
+            label.set_fontsize(8)
 
-    # Personnalisation de la légende
-    ax.legend(loc='upper left', fontsize=10)
+        # Personnalisation des axes
+        ax.set_xlabel('Heure (UTC)', fontsize=10)
+        ax.set_ylabel('Prix (EUR)', fontsize=10)
 
-    # Ajout de la grille
-    ax.grid(True, linestyle='--', alpha=0.7)
+        # Personnalisation du titre
+        ax.set_title(f'Évolution du prix de {symbol} sur les dernières 24 heures', fontsize=14)
+
+        # Personnalisation de la légende
+        ax.legend(loc='upper left', fontsize=10)
+
+        # Ajout de la grille
+        ax.grid(True, linestyle='--', alpha=0.7)
 
     return fig
 
+# https://api.coingecko.com/api/v3/simple/price?ids=litecoin&vs_currencies=eur
 def get_crypto_info(symbol):
     # Faites une requête à l'API de cryptomonnaie pour obtenir les informations spécifiques à la cryptomonnaie
     api_url = f'https://api.coingecko.com/api/v3/simple/price?ids={symbol.lower()}&vs_currencies=eur'
     response = requests.get(api_url)
     data = response.json()
-    if data['status']['error_code'] != 0:
-        return data['status']['error_message']
-    return data[symbol.lower()]['eur']
+    
+    try:
+        # Vérifier si la requête a réussi
+        if data[symbol.lower()]['eur'] is not None:
+            # Retourner le prix de la cryptomonnaie
+            return data[symbol.lower()]['eur']
+        else:
+            return 0
+    except Exception as e:
+        return f"Erreur lors de la requête à l'API : {str(e)}"
 
 def get_eth_transaction_detail(api_key, transaction_id):
     # Endpoint de l'API Etherscan pour obtenir les détails d'une transaction
@@ -153,7 +181,7 @@ def get_eth_transaction_detail(api_key, transaction_id):
             # Retourner les détails de la transaction
             return data['result']
         else:
-            return f"Erreur: {data['message']}"
+            return 0
 
     except Exception as e:
         return f"Erreur lors de la requête à l'API : {str(e)}"
@@ -172,7 +200,7 @@ def get_ltc_transaction_detail(api_token, transaction_hash):
         data = response.json()
 
         if 'error' in data:
-            return f"Erreur de l'API BlockCypher : {data['error']}"
+            return 0
 
         return data
 
