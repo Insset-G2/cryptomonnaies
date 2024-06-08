@@ -37,14 +37,8 @@ Ce projet est un microservice de cryptomonnaie développé en Python utilisant l
 
 ## Points de terminaison de l'API
 
-- `GET /api/` : Page d'index, affiche un 'Hello World !'
-- `GET /api/graphs` : Récupère la liste des principales cryptomonnaies et affiche leur graphique sur 24 heures.
-- `GET /api/graph/<crypto>` : Récupère les détails d'une cryptomonnaie spécifié et affiche son graphique sur 24 heures.
-- `GET /api/cryptodata` : Récupère les détails de toutes cryptomonnaies spécifiés.
-- `GET /api/transaction/<crypto>/<transactionId>` : Récupère le détail d'une transaction sur la blockchain selon la cryptomonnaie spécifié.
-
-## Tests
-
-Pour exécuter les tests unitaires, utilisez :
-```bash
-pytest
+- `GET /` : Page d'index, affiche un 'Hello World !'
+- `GET /graphs` : Récupère la liste des principales cryptomonnaies et affiche leur graphique sur 24 heures.
+- `GET /graph/<crypto>` : Récupère les détails d'une cryptomonnaie spécifié et affiche son graphique sur 24 heures.
+- `GET /cryptodata` : Récupère les détails de toutes cryptomonnaies spécifiés.
+- `GET /transaction/<crypto>/<transactionId>` : Récupère le détail d'une transaction sur la blockchain selon la cryptomonnaie spécifié.
