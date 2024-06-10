@@ -33,7 +33,7 @@ Ce projet est un microservice de cryptomonnaie développé en Python utilisant l
     flask run
     ```
 
-2. L'API sera disponible à l'adresse `http://127.0.0.1:5000`.
+2. L'API sera disponible à l'adresse `http://nots.fr:1337`.
 
 ## Points de terminaison de l'API
 
