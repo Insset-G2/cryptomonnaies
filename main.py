@@ -18,7 +18,7 @@ cryptocurrency_prices   = {'litecoin': 0, 'bitcoin': 0, 'ethereum': 0, 'solana':
 
 @app.route('/')
 def hello():
-    return "Hello World !"
+    return "Hello World, from crypto !"
 
 @app.route('/cryptodata', methods=['GET'])
 def get_crypto_data():

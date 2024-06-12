@@ -1,7 +1,5 @@
-runtime: python39  # Spécifie la version de Python à utiliser
-
-entrypoint: gunicorn -b :$PORT main:app  # Indique à App Engine d'exécuter le serveur Gunicorn
+runtime: python312
 
 handlers:
 - url: /.*
-  script: auto  # Indique à App Engine d'exécuter le script Python correspondant à l'URL demandée
+  script: main.app
