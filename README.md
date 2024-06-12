@@ -42,3 +42,10 @@ Ce projet est un microservice de cryptomonnaie développé en Python utilisant l
 - `GET /graph/<crypto>` : Récupère les détails d'une cryptomonnaie spécifié et affiche son graphique sur 24 heures.
 - `GET /cryptodata` : Récupère les détails de toutes cryptomonnaies spécifiés.
 - `GET /transaction/<crypto>/<transactionId>` : Récupère le détail d'une transaction sur la blockchain selon la cryptomonnaie spécifié.
+
+## Tests Unitaires
+
+1. Lancez les tests
+    ```bash
+    python -m unittest test_app.py
+    ```
